@@ -5,8 +5,8 @@ Requires=weston.service
 
 [Service]
 Type=simple
-# Wait for Weston to initialize
-ExecStartPre=/bin/sleep 2
+# Wait for Weston to initialize (1 second - optimized)
+ExecStartPre=/bin/sleep 1
 # Use Wayland for compositor-managed rendering on HDMI-A-1
 Environment=QT_QPA_PLATFORM=wayland
 Environment=WAYLAND_DISPLAY=wayland-0

@@ -1,10 +1,14 @@
 [Unit]
-Description=WiFi Auto-Enable (Disabled)
+Description=WiFi Auto-Enable via ConnMan
+After=connman.service
+Requires=connman.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/true
+ExecStart=/usr/bin/wifi-enable.sh
 RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target

@@ -1,12 +1,43 @@
 import time
-from vehicles import PiRacerStandard
-from gamepads import ShanWanGamepad
 import multiprocessing as mp
 from multiprocessing import shared_memory
 import struct
 import signal
 import sys
 import os
+import logging
+
+from gamepads import ShanWanGamepad
+
+try:
+    from vehicles import PiRacerStandard  # type: ignore
+except ImportError:
+    try:
+        from piracer.vehicles import PiRacerStandard  # type: ignore
+    except Exception:
+        # pragma: no cover - hardware shim
+        class PiRacerStandard:
+            """Fallback stub when the hardware vehicles module is unavailable."""
+
+            def __init__(self):
+                self._warned = False
+                logging.warning(
+                    "vehicles module not found; PiRacer controls are disabled. "
+                    "Install the DES_PiRacer-Assembly 'vehicles' module for real hardware control."
+                )
+
+            def _log_disabled(self, action: str, value: float) -> None:
+                if not self._warned:
+                    logging.warning(
+                        "Ignoring %s=%.2f because no vehicles backend is available.", action, value
+                    )
+                    self._warned = True
+
+            def set_throttle_percent(self, value: float) -> None:
+                self._log_disabled("throttle", value)
+
+            def set_steering_percent(self, value: float) -> None:
+                self._log_disabled("steering", value)
 
 # setting control values
 THROTTLE_MAX = 0.6
@@ -39,6 +70,11 @@ class SharedDriveMode:
                     size=SHARED_MEM_SIZE, 
                     name=self.shm_name
                 )
+                shm_path = f"/dev/shm/{self.shm_name}"
+                try:
+                    os.chmod(shm_path, 0o666)
+                except FileNotFoundError:
+                    pass
                 # Initialize with neutral mode
                 self.write_mode(self.NEUTRAL)
             except FileExistsError:
@@ -90,25 +126,41 @@ def print_inline(message):
     """Initialize gamepad with error handling"""
 
 #main loop
+def _initialise_gamepad() -> ShanWanGamepad:
+    """Block until /dev/input/js0 is available and return an initialised gamepad."""
+    while True:
+        try:
+            gamepad = ShanWanGamepad()
+            print_status("initialized gamepad")
+            return gamepad
+        except FileNotFoundError:
+            print_status("waiting for gamepad (/dev/input/js0)")
+            time.sleep(2.0)
+        except Exception as exc:  # pragma: no cover - hardware errors
+            logging.warning("failed to initialise gamepad: %s", exc)
+            time.sleep(2.0)
+
+
 def main():
-    try:
-        # initailize gamepad object
-        gamepad = ShanWanGamepad()
-        print_status("initialized gamepad")
-    except FileNotFoundError:
-        print_status("error: can't find gamepad (/dev/input/js0)")
-        exit()
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(message)s")
 
-    # initalize robot
-    car = PiRacerStandard()
-    # initialize Shared Memory
+    # initialize Shared Memory early so the IC app can always read a neutral gear
     sharedDriveMode = SharedDriveMode()
+    car = PiRacerStandard()
+
+    drive_mode = "neutral"  # can be 'drive', 'reverse', 'neutral', 'parking'
+    gamepad = _initialise_gamepad()
 
     try:
-        drive_mode = "neutral"  # can be 'drive', 'reverse', 'neutral', 'parking'
-
         while True:
-            pad_state = gamepad.read_data()
+            try:
+                pad_state = gamepad.read_data()
+            except Exception as exc:  # pragma: no cover - hardware errors
+                logging.warning("gamepad read failed (%s); retrying", exc)
+                print_status("gamepad disconnected, retrying...")
+                time.sleep(1.0)
+                gamepad = _initialise_gamepad()
+                continue
 
             # 1. steering control (left analog stick)
             steering_input = pad_state.analog_stick_left.x
@@ -125,29 +177,24 @@ def main():
             elif pad_state.button_b:
                 drive_mode = "neutral"
 
-            sharedDriveMode.write_mode(SharedDriveMode.MODE_NAMES.get(drive_mode))
+            sharedDriveMode.write_mode(
+                SharedDriveMode.MODE_NAMES.get(drive_mode, SharedDriveMode.NEUTRAL)
+            )
 
             # 3. throttle control (right analog stick y, forward is negative on most gamepads)
             throttle_input = pad_state.analog_stick_right.y or 0.0
-            # print_inline(f"Throttle Input: {throttle_input}\n")
-            
-            # Split the analog stick into two zones:
-            # Top half (negative values): Drive forward
-            # Bottom half (positive values): Reverse
 
             if throttle_input < 0.0:  # Bottom half - Reverse
-                # Map from [-1.0, 0.0] to [0.0, 1.0] for drive intensity
                 throttle_intensity = throttle_input * THROTTLE_MAX
                 stick_direction = "backward"
-            elif throttle_input > 0.0:  # # Top half - Drive  
-                # Map from [0.0, 1.0] to [0.0, 1.0] for reverse intensity
+            elif throttle_input > 0.0:  # Top half - Drive
                 throttle_intensity = throttle_input * THROTTLE_MAX
                 stick_direction = "forward"
             else:  # Dead center - Neutral
                 throttle_intensity = 0.0
                 stick_direction = "neutral"
 
-# 4. apply throttle and gear logic with stick zones
+            # 4. apply throttle and gear logic with stick zones
             if drive_mode == "drive":
                 if stick_direction == "forward":
                     car.set_throttle_percent(throttle_intensity)
@@ -169,15 +216,20 @@ def main():
                 car.set_steering_percent(0.0)
 
             # for debugging
-            print_inline(f"Steering: {steering_input:.2f}, Throttle: {throttle_intensity:.2f}, Mode: {drive_mode}")
+            print_inline(
+                f"Steering: {steering_input:.2f}, Throttle: {throttle_intensity:.2f}, Mode: {drive_mode}"
+            )
     except KeyboardInterrupt:
         print_status("program stopped by user.")
     finally:
         # safe stop and reset steering
         print_status("safe stop and reset steering")
-        car.set_throttle_percent(0.0)
-        car.set_steering_percent(0.0)
-        sharedDriveMode.cleanup()
+        try:
+            car.set_throttle_percent(0.0)
+            car.set_steering_percent(0.0)
+        finally:
+            sharedDriveMode.cleanup()
+
 
 if __name__ == "__main__":
     main()

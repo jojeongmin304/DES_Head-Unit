@@ -30,8 +30,9 @@ ConditionPathExists=/dev/tty0
 # Requires systemd-notify.so Weston plugin
 Type=notify
 EnvironmentFile=/etc/default/weston
-# Keep Plymouth splash screen visible for 3 seconds before starting Weston
-ExecStartPre=/bin/sleep 3
+# Keep Plymouth splash screen visible for full 10 seconds before starting Weston
+# This ensures the complete boot video is shown (optimized timing)
+ExecStartPre=/bin/sleep 10
 # Use custom weston.ini for dual-display configuration
 ExecStart=/usr/bin/weston --continue-without-input --config=/etc/xdg/weston/weston.ini --modules=systemd-notify.so
 Restart=on-failure
