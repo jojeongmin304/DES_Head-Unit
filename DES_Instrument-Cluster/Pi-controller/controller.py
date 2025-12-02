@@ -204,7 +204,7 @@ def main():
                     car.set_throttle_percent(0.0)
             elif drive_mode == "reverse":
                 if stick_direction == "backward":
-                    car.set_throttle_percent(-throttle_intensity)
+                    car.set_throttle_percent(throttle_intensity)  # throttle_intensity is already negative
                 elif stick_direction == "forward":
                     car.set_throttle_percent(0.0)  # No forward when in reverse mode
                 else:
