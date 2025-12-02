@@ -22,6 +22,8 @@ DEPENDS = "\
     qtwayland-native \
     qtshadertools-native \
     qtconnectivity \
+    qtlocation \
+    qtpositioning \
     qt5compat \
     bluez5 \
     pulseaudio \
@@ -35,6 +37,10 @@ RDEPENDS:${PN} = "\
     qtdeclarative-qmlplugins \
     qtmultimedia \
     qtconnectivity \
+    qtlocation \
+    qtlocation-qmlplugins \
+    qtpositioning \
+    qtpositioning-qmlplugins \
     qt5compat \
     bluez5 \
     pulseaudio \

@@ -614,6 +614,7 @@ ApplicationWindow {
             onOpenAmbient: stackView.push(ambientScreen)
             onOpenClimate: stackView.push(climateScreen)
             onOpenBluetooth: stackView.push(bluetoothScreen)
+            onOpenNavigation: stackView.push(navigationScreen)
 
             onGearChanged: function(gear) {
                 if (!rootWindow.gearClientRef)
@@ -657,6 +658,13 @@ ApplicationWindow {
     Component {
         id: bluetoothScreen
         BluetoothScreen {
+            onBackClicked: stackView.pop()
+        }
+    }
+
+    Component {
+        id: navigationScreen
+        NavigationScreen {
             onBackClicked: stackView.pop()
         }
     }

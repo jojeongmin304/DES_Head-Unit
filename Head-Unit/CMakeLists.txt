@@ -27,6 +27,8 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS
     Network
     DBus
     Bluetooth
+    Location
+    Positioning
 )
 
 qt_standard_project_setup()
@@ -74,6 +76,7 @@ qt_add_qml_module(HeadUnitApp
         ui/pages/AmbientScreen.qml
         ui/pages/ClimateScreen.qml
         ui/pages/BluetoothScreen.qml
+        ui/pages/NavigationScreen.qml
     SOURCES
         ${HEADUNIT_SOURCES}
         ${HEADUNIT_HEADERS}
@@ -97,6 +100,8 @@ target_link_libraries(HeadUnitApp
         Qt6::Network
         Qt6::DBus
         Qt6::Bluetooth
+        Qt6::Location
+        Qt6::Positioning
 )
 
 install(TARGETS HeadUnitApp
