@@ -19,24 +19,24 @@ VC4DTBO = "vc4-kms-v3d,noaudio"
 
 # Dual HDMI Display Configuration for Head-Unit and Instrument Cluster
 # HDMI-0: Head-Unit (1024x600), HDMI-1: Instrument Cluster (1024x600)
-RPI_EXTRA_CONFIG:append = "
-dtoverlay=spi1-3cs
-dtoverlay=mcp251xfd,spi0-0,oscillator=40000000,interrupt=25
-dtoverlay=mcp251xfd,spi1-0,oscillator=40000000,interrupt=24
-hdmi_drive:0=2
-hdmi_drive:1=2
-hdmi_force_hotplug:0=1
-hdmi_force_hotplug:1=1
-hdmi_group:0=2
-hdmi_group:1=2
-hdmi_mode:0=87
-hdmi_mode:1=87
-hdmi_cvt:0=1024 600 60 6 0 0 0
-hdmi_cvt:1=1024 600 60 6 0 0 0
-config_hdmi_boost:0=2
-config_hdmi_boost:1=2
-disable_overscan=1
-max_framebuffers=2
-enable_uart=1
-disable_splash=1
-"
+RPI_EXTRA_CONFIG:append = "\
+\ndtoverlay=spi1-3cs\
+\ndtoverlay=mcp251xfd,spi0-0,oscillator=40000000,interrupt=25\
+\ndtoverlay=mcp251xfd,spi1-0,oscillator=40000000,interrupt=24\
+\nhdmi_drive:0=2\
+\nhdmi_drive:1=2\
+\nhdmi_force_hotplug:0=1\
+\nhdmi_force_hotplug:1=1\
+\nhdmi_group:0=2\
+\nhdmi_group:1=2\
+\nhdmi_mode:0=87\
+\nhdmi_mode:1=87\
+\nhdmi_cvt:0=1024 600 60 6 0 0 0\
+\nhdmi_cvt:1=1024 600 60 6 0 0 0\
+\nconfig_hdmi_boost:0=2\
+\nconfig_hdmi_boost:1=2\
+\ndisable_overscan=1\
+\nmax_framebuffers=2\
+\nenable_uart=1\
+\ndisable_splash=1\
+\n"
