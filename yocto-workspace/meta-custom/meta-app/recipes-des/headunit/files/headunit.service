@@ -1,12 +1,12 @@
 [Unit]
 Description=Head Unit (Qt Quick) - Wayland Client
-After=multi-user.target weston.service
+After=weston.service
 Requires=weston.service
 
 [Service]
 Type=simple
-# Wait for Weston to initialize (1 second - optimized)
-ExecStartPre=/bin/sleep 1
+# Wait for Weston to fully initialize (2 seconds for stability)
+ExecStartPre=/bin/sleep 2
 # Use Wayland for compositor-managed rendering on HDMI-A-1
 Environment=QT_QPA_PLATFORM=wayland
 Environment=WAYLAND_DISPLAY=wayland-0

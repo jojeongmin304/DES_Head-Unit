@@ -1,11 +1,14 @@
 #
 # Instrument cluster CAN setup:
 #  - SPI + I2C stay enabled so the controller stack can talk to the CAN HW.
-#  - CAN overlays: upstream MCP251xfd on SPI0-0 and SPI1-0 (dual bus via spi1-3cs).
+#  - CAN overlay: Seeed CAN-FD HAT v2.0 (MCP2518FD on SPI0, CS0/CS1).
 #
 
 ENABLE_SPI_BUS = "1"
 ENABLE_I2C = "1"
+
+# Deploy the Seeed CAN-FD HAT v2 overlay to /boot/overlays/
+RPI_KERNEL_DEVICETREE_OVERLAYS:append = " overlays/seeed-can-fd-hat-v2.dtbo"
 
 
 # GPU Memory Configuration (optimized for dual display with power efficiency)
@@ -20,9 +23,7 @@ VC4DTBO = "vc4-kms-v3d,noaudio"
 # Dual HDMI Display Configuration for Head-Unit and Instrument Cluster
 # HDMI-0: Head-Unit (1024x600), HDMI-1: Instrument Cluster (1024x600)
 RPI_EXTRA_CONFIG:append = "\
-\ndtoverlay=spi1-3cs\
-\ndtoverlay=mcp251xfd,spi0-0,oscillator=40000000,interrupt=25\
-\ndtoverlay=mcp251xfd,spi1-0,oscillator=40000000,interrupt=24\
+\ndtoverlay=seeed-can-fd-hat-v2\
 \nhdmi_drive:0=2\
 \nhdmi_drive:1=2\
 \nhdmi_force_hotplug:0=1\

@@ -4,6 +4,7 @@
 # include "ViewModel.h"
 # include "CanGateway.h"
 # include "module/GearManager.h"
+# include "module/VehicleDataManager.h"
 
 # include <QGuiApplication>
 # include <QQmlApplicationEngine>
@@ -35,9 +36,10 @@ class InstrumentCluster {
 		void registerModel(const std::string&, ViewModel&);
 		void loadQml(const std::string&, QGuiApplication&);
 
-		const std::shared_ptr<BatteryMonitor>& getBattery() const { return _battery; } 
-		const std::shared_ptr<SharedMemory>& getVehicle() const { return _vehicle; } 
+		const std::shared_ptr<BatteryMonitor>& getBattery() const { return _battery; }
+		const std::shared_ptr<SharedMemory>& getVehicle() const { return _vehicle; }
 		const std::shared_ptr<GearManager>& getGearManager() const { return _gearManager; }
+		const std::shared_ptr<VehicleDataManager>& getVehicleDataManager() const { return _vehicleDataManager; }
 		
 	private:
 		static constexpr int CLOSE_WAIT = 5000; 
@@ -82,6 +84,7 @@ class InstrumentCluster {
 		s_ptr<SharedMemory> _vehicle = nullptr;
 		s_ptr<BatteryMonitor> _battery = nullptr;
 		s_ptr<GearManager> _gearManager = nullptr;
+		s_ptr<VehicleDataManager> _vehicleDataManager = nullptr;
 
 		bool _validTimer(std::unordered_map<std::string, QTimer_ptr>::iterator, int);
 		void _openCanCreate(const std::string&);

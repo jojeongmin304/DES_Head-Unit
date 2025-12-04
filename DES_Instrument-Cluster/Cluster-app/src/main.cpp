@@ -12,6 +12,7 @@
 #include "module/SharedMemory.h"
 #include "module/GearManager.h"
 #include "module/BatteryMonitor.h"
+#include "module/VehicleDataManager.h"
 
 
 int main(int argc, char *argv[])
@@ -65,7 +66,14 @@ int main(int argc, char *argv[])
 
 			gearManagerPtr->updateFromCluster(model.driveMode(), QStringLiteral("InstrumentCluster"));
 		}
-		
+
+		// Setup VehicleDataManager to expose speed and battery via D-Bus
+		const std::shared_ptr<VehicleDataManager>& vehicleDataManager = cluster.getVehicleDataManager();
+		if (vehicleDataManager) {
+			vehicleDataManager->setViewModel(&model);
+			qDebug() << "[main] VehicleDataManager initialized and connected to ViewModel";
+		}
+
 		cluster.registerModel("ViewModel", model);
 		cluster.loadQml("qrc:/Main.qml", app);
 		appExit = app.exec();

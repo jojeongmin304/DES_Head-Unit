@@ -36,6 +36,7 @@ qt_add_executable(${TARGET_NAME}
 	${DIR_SRC}/module/INA219.cpp
 	${DIR_SRC}/module/SharedMemory.cpp
 	${DIR_SRC}/module/GearManager.cpp
+	${DIR_SRC}/module/VehicleDataManager.cpp
 
 	# ADDED: Directly add resource files to the executable.
 	# This is the most reliable way to ensure they are compiled in.
@@ -71,7 +72,8 @@ qt_add_qml_module(${TARGET_NAME}
 		${DIR_SRC}/module/BatterySoc.h		${DIR_SRC}/module/BatterySoc.cpp
 		${DIR_SRC}/module/INA219.h			${DIR_SRC}/module/INA219.cpp
 		${DIR_SRC}/module/SharedMemory.h	${DIR_SRC}/module/SharedMemory.cpp
-		${DIR_SRC}/module/GearManager.h	${DIR_SRC}/module/GearManager.cpp
+		${DIR_SRC}/module/GearManager.h		${DIR_SRC}/module/GearManager.cpp
+		${DIR_SRC}/module/VehicleDataManager.h	${DIR_SRC}/module/VehicleDataManager.cpp
 )
 
 # Tell CMake where to find our own header files and the json.hpp header.

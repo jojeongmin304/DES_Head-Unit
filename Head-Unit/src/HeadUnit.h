@@ -7,6 +7,7 @@
 #include "backend/weather/weather_service.h"
 #include "backend/bluetooth/bluetooth_manager.h"
 #include "backend/bluetooth/bluetooth_audio_player.h"
+#include "backend/vehicle/vehicle_data_client.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QThread>
@@ -60,6 +61,7 @@ class HeadUnit : public QObject {
         s_ptr<WeatherService> _weatherService = nullptr;
         s_ptr<BluetoothManager> _bluetoothManager = nullptr;
         s_ptr<BluetoothAudioPlayer> _bluetoothAudioPlayer = nullptr;
+        s_ptr<VehicleDataClient> _vehicleDataClient = nullptr;
 };
 
 

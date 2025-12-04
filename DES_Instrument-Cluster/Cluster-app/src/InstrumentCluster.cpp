@@ -9,8 +9,9 @@
 /* CON & DESTRUCTOR */
 InstrumentCluster::InstrumentCluster()
 	: _engine(std::make_unique<QQmlApplicationEngine>())
-	, _gearManager(std::make_shared<GearManager>()) {
-		
+	, _gearManager(std::make_shared<GearManager>())
+	, _vehicleDataManager(std::make_shared<VehicleDataManager>()) {
+
 	try {
 		_battery = std::make_shared<BatteryMonitor>();
 		_vehicle = std::make_shared<SharedMemory>("piracer_drive_mode", SIZE_INT);

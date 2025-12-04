@@ -45,6 +45,7 @@ set(HEADUNIT_SOURCES
     src/backend/bluetooth/bluetooth_manager.cpp
     src/backend/bluetooth/bluetooth_audio_player.cpp
     src/backend/bluetooth/bluetooth_agent.cpp
+    src/backend/vehicle/vehicle_data_client.cpp
 )
 
 set(HEADUNIT_HEADERS
@@ -56,6 +57,7 @@ set(HEADUNIT_HEADERS
     src/backend/bluetooth/bluetooth_manager.h
     src/backend/bluetooth/bluetooth_audio_player.h
     src/backend/bluetooth/bluetooth_agent.h
+    src/backend/vehicle/vehicle_data_client.h
 )
 
 qt_add_executable(HeadUnitApp

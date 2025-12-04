@@ -9,8 +9,8 @@ Rectangle {
     border.color: "#333333"
     border.width: 1
 
-    property int speedKmh: 0
-    property int batteryPercent: 78
+    property int speedKmh: vehicleDataClient ? vehicleDataClient.speed : 0
+    property int batteryPercent: vehicleDataClient ? vehicleDataClient.battery : 0
     property int rangeKm: 420
 
     ColumnLayout {

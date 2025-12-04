@@ -77,7 +77,7 @@ Item {
                         center: defaultCenter
                         zoomLevel: 13
                         copyrightsVisible: true
-                        gesture.enabled: true
+                        // gesture.enabled: true  // Removed: Qt 6 deprecated gesture property
                         minimumZoomLevel: 3
                         maximumZoomLevel: 19
                         activeMapType: supportedMapTypes.length > 0 ? supportedMapTypes[0] : null
