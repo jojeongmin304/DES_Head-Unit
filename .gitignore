@@ -5,5 +5,5 @@ yocto-workspace/build-des/sstate-cache/
 yocto-workspace/.yocto-cache/
 Head-Unit/build/
 .vscode/
-
+.claude/
 headunit-build/
