@@ -711,37 +711,12 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 ---
 
 ## 👥 Authors & Acknowledgments
-
-### Core Team
-
-- **Project Lead**: [Your Name]
-- **Yocto Integration**: [Contributor Name]
-- **UI/UX Design**: [Designer Name]
-- **Hardware Integration**: [Engineer Name]
-
-### Special Thanks
-
-- Raspberry Pi Foundation for excellent hardware and documentation
-- Yocto Project community for the robust build system
-- Qt Company for the powerful application framework
-- Seeed Studio for the CAN-FD HAT design
+[jojeongmin304](https://github.com/jojeongmin304)
+[Ju-Daeng-E](https://github.com/Ju-Daeng-E)
 
 ---
 
-## 📞 Support
-
-### Community
-
-- **Issues**: [GitHub Issues](https://github.com/your-org/DES_Head-Unit/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/DES_Head-Unit/discussions)
-- **Wiki**: [Project Wiki](https://github.com/your-org/DES_Head-Unit/wiki)
-
-### Commercial Support
-
-For enterprise deployments, custom development, or consulting:
-- Email: support@your-domain.com
-- Website: https://your-domain.com
-
+*For questions or support, open an issue in this repository.*
 ---
 
 ## 🗺️ Roadmap
