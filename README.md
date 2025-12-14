@@ -744,10 +744,10 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 
 ## 📊 Project Statistics
 
-![Language Distribution](https://img.shields.io/github/languages/top/your-org/DES_Head-Unit)
-![Code Size](https://img.shields.io/github/languages/code-size/your-org/DES_Head-Unit)
-![Contributors](https://img.shields.io/github/contributors/your-org/DES_Head-Unit)
-![Last Commit](https://img.shields.io/github/last-commit/your-org/DES_Head-Unit)
+![Language Distribution](https://img.shields.io/github/languages/top/jojeongmin304/DES_Head-Unit)
+![Code Size](https://img.shields.io/github/languages/code-size/jojeongmin304/DES_Head-Unit)
+![Contributors](https://img.shields.io/github/contributors/jojeongmin304/DES_Head-Unit)
+![Last Commit](https://img.shields.io/github/last-commit/jojeongmin304/DES_Head-Unit)
 
 **Build Time**: ~4-8 hours (first build), ~30 minutes (incremental)
 **Image Size**: ~2GB (compressed ~500MB)
