@@ -711,8 +711,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 ---
 
 ## 👥 Authors & Acknowledgments
-[jojeongmin304](https://github.com/jojeongmin304)
-[Ju-Daeng-E](https://github.com/Ju-Daeng-E)
+- [jojeongmin304](https://github.com/jojeongmin304)
+- [Ju-Daeng-E](https://github.com/Ju-Daeng-E)
 
 ---
 
